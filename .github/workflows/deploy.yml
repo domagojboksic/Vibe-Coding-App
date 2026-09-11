@@ -3,7 +3,7 @@ name: Deploy Supabase Changes
 on:
   push:
     branches:
-      - main # Triggers the workflow whenever code is pushed to the main branch
+      - main
 
 jobs:
   deploy:
@@ -18,15 +18,14 @@ jobs:
         with:
           version: latest
 
+      - name: Link Supabase Project (IPv4 Fix)
+        run: supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_ID }} -p ${{ secrets.SUPABASE_DB_PASSWORD }}
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
       - name: Deploy Database Migrations
         run: supabase db push
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
-
-      # Optional: Uncomment this section if you use Supabase Edge Functions
-      # - name: Deploy Edge Functions
-      #   run: supabase functions deploy
-      #   env:
-      #     SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-      #     SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
