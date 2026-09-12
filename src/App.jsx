@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuthBoot, useReady, useUser, useProfile } from '@/features/auth/hooks/useAuth'
 import { signOut } from '@/features/auth/api/auth.api'
 import AuthPage from '@/features/auth/components/AuthPage'
+import ResetPasswordPage from '@/features/auth/components/ResetPasswordPage'
 
 function ProtectedRoute({ children }) {
   const user  = useUser()
@@ -57,9 +58,10 @@ function AppRoutes() {
   useAuthBoot()
   return (
     <Routes>
-      <Route path="/auth" element={<PublicRoute><AuthPage /></PublicRoute>} />
-      <Route path="/" element={<ProtectedRoute><HomePlaceholder /></ProtectedRoute>} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/auth"           element={<PublicRoute><AuthPage /></PublicRoute>} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/"               element={<ProtectedRoute><HomePlaceholder /></ProtectedRoute>} />
+      <Route path="*"               element={<Navigate to="/" replace />} />
     </Routes>
   )
 }
