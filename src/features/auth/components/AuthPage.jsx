@@ -92,8 +92,9 @@ export default function AuthPage() {
     const { error } = await resetPassword(form.email)
     setLoading(false)
     if (error) { handleError(error); return }
-    setSuccess('Password reset link sent — check your email.')
     setShowReset(false)
+    setSuccess('Password reset link sent — check your email.')
+    setTimeout(() => setSuccess(null), 4000)
   }
 
   const submit = () => {
